@@ -1,0 +1,9 @@
+{
+  "log1": "/var/log/auth.log.1",
+  "log2": "/var/log/syslog.1",
+  "log3": "/var/log/daemon.log.1"
+}
+
+
+
+

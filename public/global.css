@@ -1,0 +1,19 @@
+body {
+  background-color: black; /* Set the background color to black */
+  /* margin: 0; Remove default margin */
+  /* padding: 0; Remove default padding */
+  height: 100vh; /* Ensure the body takes full height */
+}
+
+.MuiDrawer-root {
+  background-color: black; /* Ensure the drawer background is black */
+}
+
+.app-container {
+  background-color: #000000; /* Layout-specific background */
+  min-height: 100vh;         /* Ensure the container covers full height */
+  color: #007FFF;            /* Text color */
+  padding: 20px;             /* Inner padding */
+  box-sizing: border-box;    /* Include padding in total height/width */
+}
+

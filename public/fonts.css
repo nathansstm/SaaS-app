@@ -1,0 +1,14 @@
+/* src/public/fonts.css */
+@font-face {
+  font-family: 'Poppins';
+  src: url('./fonts/poppins-regular.woff2') format('woff2'),
+       url('./fonts/poppins-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Poppins', sans-serif; /* Set the font globally */
+  color: white; /* Use white text color */
+}
+
