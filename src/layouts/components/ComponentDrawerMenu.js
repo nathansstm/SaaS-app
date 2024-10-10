@@ -51,11 +51,19 @@ const ComponentDrawerMenu = () => {
           </ListItem>
           {servicesOpen && (
             <>
+<<<<<<< HEAD
               <ListItem button onClick={() => navigateOpen('/app/app')}>
                 <ListItemText primary="Create App" />
               </ListItem>
               <ListItem button onClick={() => navigateOpen('/app/saas')}>
                 <ListItemText primary="Create App Service" />
+=======
+              <ListItem button onClick={() => navigateOpen('/app/web')}>
+                <ListItemText primary="Web Development" />
+              </ListItem>
+              <ListItem button onClick={() => navigateOpen('/app/seo')}>
+                <ListItemText primary="SEO Services" />
+>>>>>>> origin/main
               </ListItem>
             </>
           )}
