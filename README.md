@@ -1,4 +1,4 @@
-# SaaS-app
+# Saas-app
 
 This project demonstrates a basic React setup without using `npx`. It focuses on the use of Webpack for bundling JavaScript modules, including React components, and serves the app locally on port 5000 using Webpack's development server and Uses a Node Proxy for webhooks on port 3000.
 
@@ -41,6 +41,7 @@ npm install @mui/icons-material
 npm install js-yaml
 npm install gsap
 npm install @mui/material @emotion/react @emotion/styled chart.js react-chartjs-2
+npm install @mui/material @mui/lab @emotion/react @emotion/styled react-syntax-highlighter
 ```
 
 ### 3. Create the HTML File:

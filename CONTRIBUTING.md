@@ -1,4 +1,4 @@
-# Contributing to SaaS-app
+# Contributing to Saas-app
 
 Thank you for considering contributing to this project! To ensure that your contributions are useful and maintain the project's integrity, please review the guidelines below.
 
@@ -9,7 +9,7 @@ Thank you for considering contributing to this project! To ensure that your cont
 
 2. **Clone your fork**: 
    - Clone your fork to your local development environment using the following command: 
-     'git clone https://github.com/YOUR-USERNAME/SaaS-app.git'
+     'git clone https://github.com/YOUR-USERNAME/Saas-app.git'
 
 3. **Create a branch**: 
    - Create a new branch for your changes: 
@@ -35,7 +35,7 @@ By participating in this project, you agree to abide by the [Code of Conduct](CO
 
 ## Reporting Issues
 
-If you find a bug or have a suggestion for improvement, please create an issue on the [GitHub Issues page](https://github.com/YOUR-USERNAME/SaaS-app/issues).
+If you find a bug or have a suggestion for improvement, please create an issue on the [GitHub Issues page](https://github.com/YOUR-USERNAME/Saas-app/issues).
 
 Thank you for your contributions!
 
