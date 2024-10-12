@@ -5,6 +5,7 @@ const readline = require('readline');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { VM } = require('vm2'); // Add this line to import the VM class
 
 const savePaymentToDatabase = require('./savePaymentToDatabase');
 const getPaymentDetails = require('./getPaymentDetails');
@@ -252,6 +253,31 @@ app.post('/api/authorize', (req, res) => {
 
     res.status(200).json({ message: 'Token is valid.', user: decoded });
   });
+});
+
+app.post('/api/send', (req, res) => {
+  const { code } = req.body; // Get the JavaScript code from the request body
+
+  // Basic validation to check if code is provided
+  if (!code) {
+    return res.status(400).json({ output: 'No code provided.' });
+  }
+
+  const vm = new VM({
+    timeout: 1000, // Set a timeout for execution
+    sandbox: {},   // Define a sandbox if needed
+  });
+
+  try {
+    // Run the provided code in the VM and convert output to a string
+    const output = vm.run(code);
+    const stringifiedOutput = typeof output === 'object' ? JSON.stringify(output) : String(output);
+    
+    res.json({ output: stringifiedOutput }); // Return the result as JSON
+  } catch (error) {
+    console.error('Error executing code:', error);
+    res.status(500).json({ output: 'Failed to execute code.', details: error.message });
+  }
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
