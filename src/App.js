@@ -10,8 +10,9 @@ import Payments from './pages/Payments';
 import Dashboard from './pages/Dashboard';
 import Github from './pages/Github';
 import Settings from './pages/Settings';
+import Read from './pages/Read';
 import Saas from './pages/Saas';
-
+import Carousel from './pages/Carousel';
 
 // A wrapper component that combines App layout and the actual page content
 const AppLayout = ({ children }) => {
@@ -73,8 +74,10 @@ function MainApp() {
         <Route path="/app/settings" element={<AppLayout><Settings /></AppLayout>} />
         <Route path="/app/about" element={<AppLayout><AppAppApp /></AppLayout>} />
         <Route path="/app/contact" element={<AppLayout><AppAppApp /></AppLayout>} />
+        <Route path="/app/read" element={<AppLayout><Read /></AppLayout>} />
         <Route path="/app/app" element={<AppLayout><AppApp /></AppLayout>} />
         <Route path="/app/saas" element={<AppLayout><Saas /></AppLayout>} />
+        <Route path="/app/carousel" element={<AppLayout><Carousel /></AppLayout>} />
         <Route path="*" element={<Navigate to="/app" />} />
       </Routes>
     </Router>

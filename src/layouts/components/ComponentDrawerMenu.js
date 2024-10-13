@@ -54,6 +54,12 @@ const ComponentDrawerMenu = () => {
               <ListItem button onClick={() => navigateOpen('/app/app')}>
                 <ListItemText primary="Create App" />
               </ListItem>
+              <ListItem button onClick={() => navigateOpen('/app/read')}>
+                <ListItemText primary="Create App Read" />
+              </ListItem>
+              <ListItem button onClick={() => navigateOpen('/app/carousel')}>
+                <ListItemText primary="Create App Carousel" />
+              </ListItem>
               <ListItem button onClick={() => navigateOpen('/app/saas')}>
                 <ListItemText primary="Create App Service" />
               </ListItem>

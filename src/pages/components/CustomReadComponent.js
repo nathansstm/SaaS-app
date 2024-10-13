@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { InputBase, IconButton, Box, Typography, Card } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-const CustomInstanceComponent = () => {
+const CustomReadComponent = () => {
   const [inputValue, setInputValue] = useState('');
   const [responses, setResponses] = useState([]);
 
@@ -96,4 +96,4 @@ const CustomInstanceComponent = () => {
   );
 };
 
-export default CustomInstanceComponent;
+export default CustomReadComponent;
