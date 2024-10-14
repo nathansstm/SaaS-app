@@ -6,6 +6,10 @@ const CustomReadComponent = () => {
   const [inputValue, setInputValue] = useState('');
   const [responses, setResponses] = useState([]);
 
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!inputValue) return;
@@ -81,6 +85,7 @@ const CustomReadComponent = () => {
           <InputBase
             placeholder="REPL"
             value={inputValue}
+            onChange={handleInputChange}
             sx={{
               flex: 1,
               fontSize: '32px',
