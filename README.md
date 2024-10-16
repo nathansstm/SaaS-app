@@ -42,6 +42,12 @@ npm install js-yaml
 npm install gsap
 npm install @mui/material @emotion/react @emotion/styled chart.js react-chartjs-2
 npm install @mui/material @mui/lab @emotion/react @emotion/styled react-syntax-highlighter
+npm install vm2
+npm install react-swipeable-views --legacy-peer-deps
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom --legacy-peer-deps
+npm install --save-dev jest-environment-jsdom --legacy-peer-deps
+npm install --save-dev @testing-library/dom --legacy-peer-deps
 ```
 
 ### 3. Create the HTML File:
