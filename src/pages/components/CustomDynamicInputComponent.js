@@ -18,6 +18,50 @@ const CustomDynamicInputComponent = () => {
     }
   }, [records]);
 
+  // Function to send a request to update a record
+  const sendUpdateRequest = async (id, value) => {
+    const jwtToken = Cookies.get('jwtToken'); // Retrieve the JWT token from cookies
+
+    if (!jwtToken) {
+      showSnackbar('No token found');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwtToken}`, // Send the token in the headers
+        },
+        body: JSON.stringify({ id, value }), // Send the id and updated value in the request body
+        credentials: 'include', // Ensures cookies are included in the request
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        showSnackbar(`Updated successfully`);
+      } else {
+        showSnackbar(`Update Failed ${data.error} ${data.message}`);
+      }
+    } catch (error) {
+      showSnackbar(`Update Error ${error.message}`);
+    }
+  };
+
+  // Updated function to handle input field change
+  const handleInputChange = (index, event) => {
+    const newFields = [...inputFields];
+    newFields[index].value = event.target.value;
+    setInputFields(newFields);
+
+    // Send update request for the input field on change
+    const { id, value } = newFields[index];
+    if (id) { // Only send update request if the id is available
+      sendUpdateRequest(id, event.target.value);
+    }
+  };
+
   const sendAddRequest = async (value) => {
     const jwtToken = Cookies.get('jwtToken');
 
@@ -47,12 +91,6 @@ const CustomDynamicInputComponent = () => {
     } catch (error) {
       showSnackbar(`Add Error: ${error.message}`);
     }
-  };
-
-  const handleInputChange = (index, event) => {
-    const newFields = [...inputFields];
-    newFields[index].value = event.target.value;
-    setInputFields(newFields);
   };
 
   const addNewField = () => {
@@ -131,3 +169,5 @@ const CustomDynamicInputComponent = () => {
 };
 
 export default CustomDynamicInputComponent;
+
+
