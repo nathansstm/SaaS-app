@@ -41,11 +41,13 @@ const CustomDynamicInputComponent = () => {
       const data = await response.json();
       if (response.ok) {
         showSnackbar(`Updated successfully`);
+
+        // No need to call loadRecords here. Instead, rely on local state update.
       } else {
-        showSnackbar(`Update Failed ${data.error} ${data.message}`);
+        showSnackbar(`Update Failed: ${data.error} ${data.message}`);
       }
     } catch (error) {
-      showSnackbar(`Update Error ${error.message}`);
+      showSnackbar(`Update Error: ${error.message}`);
     }
   };
 
@@ -57,9 +59,16 @@ const CustomDynamicInputComponent = () => {
 
     // Send update request for the input field on change
     const { id, value } = newFields[index];
-    if (id) { // Only send update request if the id is available
+    if (id) {
       sendUpdateRequest(id, event.target.value);
     }
+
+    // Update records locally without reloading from backend
+    setRecords(prevRecords => {
+      const updatedRecords = [...prevRecords];
+      updatedRecords[index].value = event.target.value; // Update the record value locally
+      return updatedRecords; // Return the updated records list
+    });
   };
 
   const sendAddRequest = async (value) => {
@@ -133,7 +142,7 @@ const CustomDynamicInputComponent = () => {
 
   return (
     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" height="100%">
-      <Box width="200px" bgcolor="black" p={2} display="flex" flexDirection="column" alignItems="stretch" style={{ gap: '10px' }}>
+      <Box bgcolor="black" p={2} display="flex" flexDirection="column" alignItems="stretch" style={{ gap: '10px' }}>
         {inputFields.map((field, index) => (
           <React.Fragment key={index}>
             <Box display="flex" alignItems="center" justifyContent="space-between" style={{ marginBottom: '10px', backgroundColor: 'black', padding: '5px', borderRadius: '20px', border: '1px solid gray' }}>
@@ -169,5 +178,3 @@ const CustomDynamicInputComponent = () => {
 };
 
 export default CustomDynamicInputComponent;
-
-
