@@ -1,45 +1,50 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import styled from 'styled-components';
 import { useRecords } from './CustomRecordsContext';
 
+// Create a styled version of DataGrid
+const StyledDataGrid = styled(DataGrid)`
+  & .MuiDataGrid-root {
+    border: none !important;
+    background-color: transparent !important;
+  }
+
+  & .MuiDataGrid-row {
+    border: none;
+    border-top: 1px solid #007FFF;
+    border-bottom: 1px solid #007FFF;
+  }
+
+  & .MuiDataGrid-cell {
+    border: none;
+    border-right: 1px solid #007FFF;
+    color: #007FFF;
+  }
+
+  & .MuiDataGrid-iconSeparator,
+  & .MuiDataGrid-withBorderColor,
+  & .MuiDataGrid-row--borderBottom,
+  & .MuiDataGrid-filler,
+  & .MuiDataGrid-columnHeadersInner {
+    background: transparent !important;
+    border: none !important;
+    color: #007FFF !important;
+  }
+`;
+
+// Create theme
 const theme = createTheme({
   components: {
-    MuiDataGrid: {
-      styleOverrides: {
-        root: {
-          border: 'none',
-          backgroundColor: '#000000',
-        },
-        columnHeaders: {
-          border: 'none',
-          margin: '0',
-          padding: '0',
-          backgroundColor: '#000000',
-          color: '#007FFF',
-        },
-        columnHeader: {
-          borderBottom: 'none',
-          padding: '0',
-          margin: '0',
-        },
-        row: {
-          border: 'none',
-        },
-        cell: {
-          border: 'none',
-          color: '#007FFF',
-        },
-      },
-    },
     MuiTablePagination: {
       styleOverrides: {
         root: {
-          backgroundColor: '#000000',
+          backgroundColor: 'transparent',
           color: '#007FFF',
         },
         toolbar: {
-          backgroundColor: '#000000',
+          backgroundColor: 'transparent',
           color: '#007FFF',
         },
         selectIcon: {
@@ -60,66 +65,31 @@ const theme = createTheme({
 const CustomDataGridComponent = () => {
   const { records } = useRecords();
 
-  const headerStyles = `
-    .super-app-theme--header {
-      background: #000000;
-      color: #007FFF;
-      font-size: 16px;
-      border: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .MuiDataGrid-root .MuiDataGrid-iconSeparator,
-    .MuiMenuItem-gutters,
-    .MuiDivider-root {
-      background: #000000;
-      color: #000000;
-    }
-  
-    .MuiList-root,
-    .MuiList-root .MuiList-padding,
-    .MuiList-root .MuiDataGrid-menuList,
-    .MuiList-root .MuiListItemText-root,
-    .MuiList-root .MuiListItemIcon-root,
-    .MuiDataGrid-root .MuiDataGrid-withBorderColor,
-    .MuiDataGrid-root .MuiDataGrid-filler,
-    .MuiDataGrid-root .MuiDataGrid-columnHeaderTitle,
-    .MuiDataGrid-root .MuiDataGrid-columnHeadersInner {
-      background: #000000 !important;
-      border: none !important;
-      color: #007FFF !important;
-    }
-  `;
-
   const columns = [
     {
       field: 'id',
       headerName: 'ID',
-      headerClassName: 'super-app-theme--header',
-      headerAlign: 'center',
-      renderHeader: () => <strong>ID</strong>,
+      renderCell: () => <strong>Test</strong>, // Display "Test" instead of the actual ID
     },
     {
       field: 'value',
       headerName: 'Value',
-      headerClassName: 'super-app-theme--header',
-      headerAlign: 'center',
       renderHeader: () => <strong>Value</strong>,
     },
   ];
 
   return (
-    <>
-      <style>{headerStyles}</style>
-      <ThemeProvider theme={theme}>
-        <DataGrid
-          rows={records}
-          columns={columns}
-          pageSize={5}
-        />
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={theme}>
+      <StyledDataGrid
+        rows={records}
+        columns={columns}
+        pageSize={5}
+        sx={{
+          border: 'none',
+          backgroundColor: 'transparent',
+        }}
+      />
+    </ThemeProvider>
   );
 };
 
