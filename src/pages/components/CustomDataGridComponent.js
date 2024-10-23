@@ -1,38 +1,7 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import styled from 'styled-components';
 import { useRecords } from './CustomRecordsContext';
-
-// Create a styled version of DataGrid
-const StyledDataGrid = styled(DataGrid)`
-  & .MuiDataGrid-root {
-    border: none !important;
-    background-color: transparent !important;
-  }
-
-  & .MuiDataGrid-row {
-    border: none;
-    border-top: 1px solid #007FFF;
-    border-bottom: 1px solid #007FFF;
-  }
-
-  & .MuiDataGrid-cell {
-    border: none;
-    border-right: 1px solid #007FFF;
-    color: #007FFF;
-  }
-
-  & .MuiDataGrid-iconSeparator,
-  & .MuiDataGrid-withBorderColor,
-  & .MuiDataGrid-row--borderBottom,
-  & .MuiDataGrid-filler,
-  & .MuiDataGrid-columnHeadersInner {
-    background: transparent !important;
-    border: none !important;
-    color: #007FFF !important;
-  }
-`;
 
 // Create theme
 const theme = createTheme({
@@ -80,13 +49,34 @@ const CustomDataGridComponent = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <StyledDataGrid
+      <DataGrid
         rows={records}
         columns={columns}
         pageSize={5}
+        // Keep the root-level sx prop already applied
         sx={{
-          border: 'none',
-          backgroundColor: 'transparent',
+          border: 'none !important',
+          backgroundColor: 'transparent !important',
+          // Move all other styles here with !important added
+          '& .MuiDataGrid-root': {
+            border: 'none !important',
+            backgroundColor: 'transparent !important',
+          },
+          '& .MuiDataGrid-row': {
+            border: 'none',
+            borderTop: '1px solid #007FFF !important',
+            borderBottom: '1px solid #007FFF !important',
+          },
+          '& .MuiDataGrid-cell': {
+            border: 'none',
+            borderRight: '1px solid #007FFF !important',
+            color: '#007FFF !important',
+          },
+          '& .MuiDataGrid-iconSeparator, & .MuiDataGrid-withBorderColor, & .MuiDataGrid-row--borderBottom, & .MuiDataGrid-filler, & .MuiDataGrid-columnHeadersInner': {
+            background: 'transparent !important',
+            border: 'none !important',
+            color: '#007FFF !important',
+          },
         }}
       />
     </ThemeProvider>
