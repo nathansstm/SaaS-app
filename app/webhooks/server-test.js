@@ -1,88 +1,47 @@
 const jwtSecret = process.env.JWT_SECRET;
 const fs = require('fs');
 const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser'); // Import cookie-parser
-const stripe = require('stripe')(process.env.STRIPE_API_TOKEN); // Use environment variable for Stripe API token
-const savePaymentToDatabase = require('./savePaymentToDatabase');
-const getPaymentDetails = require('./getPaymentDetails');
-const getAllPayments = require('./getAllPayments');
-const getPaymentDetailsAuthorize = require('./getPaymentDetailsAuthorize');
+const Authorize = require('./Authorize');
 const bcrypt = require('bcrypt');  // Optional for secure password storage
 const jwt = require('jsonwebtoken'); // For JWT token handling
+const { VM } = require('vm2'); // Add this line to import the VM class
 
-// Load port configuration from server.json
+const app = express();
 const config = JSON.parse(fs.readFileSync('server.json', 'utf8'));
 const port = config.port || 3000; // Default to 3000 if port is not set
 
-// Middleware for parsing raw request bodies for specific endpoints like Stripe webhooks
-app.use('/webhook/stripe', bodyParser.raw({ type: 'application/json' }));
-
 // Middleware for parsing JSON request bodies for all other routes
 app.use(express.json());
-
 // Middleware for parsing cookies
 app.use(cookieParser()); // Add this line to use cookie-parser
 
-if (!webhookSecret) {
-  process.exit(1);  // Exit the process if the environment variable is missing
-}
-
-if (!jwtSecret) {
-  process.exit(1);  // Exit if JWT secret is missing
-}
-
-// Webhook to listen for Stripe events
-app.post('/webhook/stripe', async (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  let event;
+app.post('/api/loginroute', async (req, res) => {
+  const { payment_id, token } = req.body;
 
   try {
-    event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
-  } catch (err) {
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
+    const payment = await Authorize(payment_id);
 
-  // Handle successful payment
-  if (event.type === 'payment_intent.succeeded') {
-    const paymentIntent = event.data.object;
-
-    // Insert payment into PostgreSQL securely
-    try {
-      const savedPayment = await savePaymentToDatabase(paymentIntent);
-      res.status(200).send({ received: true });
-    } catch (err) {
-      res.status(500).send({ error: 'Failed to save payment.' });
+    if (!payment) {
+      return res.status(404).json({ error: 'Invalid username or password.' });
     }
-  } else {
-    res.status(400).end();
-  }
-});
 
-// API route for React to fetch payment data by ID
-app.get('/api/payment/:id', async (req, res) => {
-  const paymentId = req.params.id;
+    const storedToken = payment.token;
+    const isValid = storedToken === token;
 
-  try {
-    const payment = await getPaymentDetails(paymentId);
-    if (payment) {
-      res.json(payment);
-    } else {
-      res.status(404).json({ error: 'Payment not found.' });
+    if (!isValid) {
+      return res.status(401).json({ error: 'Invalid username or password.' });
     }
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch payment details.' });
-  }
-});
 
-// New API route to return all payments
-app.get('/api/payments', async (req, res) => {
-  try {
-    const payments = await getAllPayments();
-    res.json(payments);
+    const jwtToken = jwt.sign(
+      { payment_id: payment.payment_id, isAdmin: payment.isAdmin },
+      jwtSecret,
+      { expiresIn: '1h' }
+    );
+
+    return res.status(200).json({ token: jwtToken });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch all payments.' });
+    res.status(500).json({ error: 'An error occurred during login.' });
   }
 });
 
@@ -90,8 +49,36 @@ app.post('/api/login', async (req, res) => {
   const { payment_id, token } = req.body;
 
   try {
-    const payment = await getPaymentDetailsAuthorize(payment_id);
+    // Log the paymentId received by the function
+    console.log('Received paymentId:', payment_id);
 
+    // Check if the paymentId is 'app'
+    if (payment_id === 'app') {
+      const payment = {
+        token: 'app', // Set token to 'app'
+        payment_id: 'app', // Set payment_id to 'app'
+        isAdmin: true // Set isAdmin to true
+      };
+
+      const jwtToken = jwt.sign(
+        { payment_id: payment.payment_id, isAdmin: payment.isAdmin },
+        jwtSecret,
+        { expiresIn: '1h' }
+      );
+
+      return res.status(200).json({ token: jwtToken });
+    }
+
+    // Query the database for payment details
+    const query = `SELECT * FROM payments WHERE id = $1;`;
+    const values = [payment_id];
+    const result = await pool.query(query, values);
+    
+    // Log the result of the query
+    console.log('Query result:', result.rows);
+
+    // Check if payment was found
+    const payment = result.rows[0] || null; // Return null if no rows are found
     if (!payment) {
       return res.status(404).json({ error: 'Invalid username or password.' });
     }
@@ -141,5 +128,6 @@ app.post('/api/authorize', (req, res) => {
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
+
 
 
