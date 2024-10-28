@@ -13,8 +13,8 @@ import Settings from './pages/Settings';
 import Read from './pages/Read';
 import Saas from './pages/Saas';
 import Carousel from './pages/Carousel';
+import AppOpen from './AppOpen';
 
-// A wrapper component that combines App layout and the actual page content
 const AppLayout = ({ children }) => {
   return (
     <App>
@@ -64,20 +64,20 @@ function MainApp() {
   return (
     <Router>
       <Routes>
-        <Route path="/app" element={<AppLayout><AppAppApp /></AppLayout>} />
-        <Route path="/app/dashboard" element={<AppLayout><ProtectedRoute element={Dashboard} /></AppLayout>} />
-        <Route path="/app/payments" element={<AppLayout><ProtectedRoute element={Payments} /></AppLayout>} />
-        <Route path="/app/admin" element={<AppLayout><ProtectedRoute element={AdminPayments} /></AppLayout>} />
-        <Route path="/app/login" element={<AppLayout><Login /></AppLayout>} />
-        <Route path="/app/logout" element={<AppLayout><Logout /></AppLayout>} />
-        <Route path="/app/github" element={<AppLayout><Github /></AppLayout>} />
-        <Route path="/app/settings" element={<AppLayout><Settings /></AppLayout>} />
-        <Route path="/app/about" element={<AppLayout><AppAppApp /></AppLayout>} />
-        <Route path="/app/contact" element={<AppLayout><AppAppApp /></AppLayout>} />
-        <Route path="/app/read" element={<AppLayout><Read /></AppLayout>} />
-        <Route path="/app/app" element={<AppLayout><AppApp /></AppLayout>} />
-        <Route path="/app/saas" element={<AppLayout><Saas /></AppLayout>} />
-        <Route path="/app/carousel" element={<AppLayout><Carousel /></AppLayout>} />
+        <Route path="/app" element={<AppLayout><AppOpen><AppAppApp /></AppOpen></AppLayout>} />
+        <Route path="/app/dashboard" element={<AppLayout><AppOpen><ProtectedRoute element={Dashboard} /></AppOpen></AppLayout>} />
+        <Route path="/app/payments" element={<AppLayout><AppOpen><ProtectedRoute element={Payments} /></AppOpen></AppLayout>} />
+        <Route path="/app/admin" element={<AppLayout><AppOpen><ProtectedRoute element={AdminPayments} /></AppOpen></AppLayout>} />
+        <Route path="/app/login" element={<AppLayout><AppOpen><Login /></AppOpen></AppLayout>} />
+        <Route path="/app/logout" element={<AppLayout><AppOpen><Logout /></AppOpen></AppLayout>} />
+        <Route path="/app/github" element={<AppLayout><AppOpen><Github /></AppOpen></AppLayout>} />
+        <Route path="/app/settings" element={<AppLayout><AppOpen><Settings /></AppOpen></AppLayout>} />
+        <Route path="/app/about" element={<AppLayout><AppOpen><AppAppApp /></AppOpen></AppLayout>} />
+        <Route path="/app/contact" element={<AppLayout><AppOpen><AppAppApp /></AppOpen></AppLayout>} />
+        <Route path="/app/read" element={<AppLayout><AppOpen><Read /></AppOpen></AppLayout>} />
+        <Route path="/app/app" element={<AppLayout><AppOpen><AppApp /></AppOpen></AppLayout>} />
+        <Route path="/app/saas" element={<AppLayout><AppOpen><Saas /></AppOpen></AppLayout>} />
+        <Route path="/app/carousel" element={<AppLayout><AppOpen><Carousel /></AppOpen></AppLayout>} />
         <Route path="*" element={<Navigate to="/app" />} />
       </Routes>
     </Router>
@@ -85,4 +85,3 @@ function MainApp() {
 }
 
 export default MainApp;
-
