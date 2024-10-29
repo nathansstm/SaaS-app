@@ -5,6 +5,9 @@ import CustomDynamicInputComponent from './components/CustomDynamicInputComponen
 import CustomPipelineComponent from './components/CustomPipelineComponent';
 import CustomDataGridComponent from './components/CustomDataGridComponent';
 import CustomSpanComponent from './components/CustomSpanComponent';
+import CustomGroupComponent from './components/CustomGroupComponent';
+import CustomMapComponent from './components/CustomMapComponent';
+import CustomSourceComponent from './components/CustomSourceComponent';
 import { CustomRecordsProvider } from './components/CustomRecordsContext';
 
 function Dashboard() {
@@ -17,6 +20,21 @@ function Dashboard() {
 
         {/* Box for stacking components, allowing them to push each other down */}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+  
+          {/* CustomSourceComponent graph */}
+          <Box sx={{ width: '100%' }}>
+            <CustomSourceComponent />
+          </Box>
+  
+          {/* CustomMapComponent graph */}
+          <Box sx={{ width: '100%' }}>
+            <CustomMapComponent />
+          </Box>
+  
+          {/* CustomGroupComponent graph */}
+          <Box sx={{ width: '100%' }}>
+            <CustomGroupComponent />
+          </Box>
   
           {/* CustomSpanComponent graph */}
           <Box sx={{ width: '100%' }}>
