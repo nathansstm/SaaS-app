@@ -19,6 +19,7 @@ const ApiLoad = require('./ApiLoad');
 const ApiUpdate = require('./ApiUpdate');
 const ApiRemove = require('./ApiRemove');
 const AppRoute = require('./AppRoute');
+const AppArray = require('./AppArray');
 
 const config = JSON.parse(fs.readFileSync('server.json', 'utf8'));
 const port = config.port || 3000; // Default to 3000 if port is not set
@@ -45,6 +46,8 @@ app.use('/api', ApiUpdate);
 app.use('/api', ApiRemove);
 // Use the trace route
 app.use('/api', AppRoute);
+// Use the array route
+app.use('/api', AppArray);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
